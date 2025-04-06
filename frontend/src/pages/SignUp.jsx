@@ -16,14 +16,28 @@ const SignUp = () => {
   const[email, setEmail] = useState("");
   const[password, setPassword] = useState("");
 
+  const[loading, setLoading] = useState(false);
+
+  const[err, setErr] = useState("");  // useState to show the error
+
+
   const handleSignUp = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try{
       let res = await axios.post(serverUrl+"/api/auth/signup",{firstName, lastName, userName, email, password}, {withCredentials:true});
       console.log(res.data);  
+      setLoading(false);
+      setFirstName("");
+      setLastName("");
+      setUserName("");
+      setEmail("");
+      setPassword("");
     }
     catch(error){
-      console.log(error);
+      setErr(error.response.data.message);
+      // console.log(error);
+      setLoading(false);
     }
   }
 
@@ -43,7 +57,8 @@ const SignUp = () => {
           <input type={show ? "text" : "password"} className='w-full h-full border-none text-gray-800 text-[18px] px-[20px] py-[10px] rounded-md' placeholder='password' required value={password}  onChange={(e)=>setPassword(e.target.value)} />
           <span className='absolute right-[20px] top-[10px] text-blue-800 cursor-pointer' onClick={()=>setShow(prev=>!prev)}>{show ? "hidden" : "show"}</span>
         </div>
-        <button className='w-[100%] h-[50px] bg-[#1dc9fd] text-white rounded-full mt-[40px]'>Sign Up</button>
+        {err && <p>{err}</p> }  
+        <button className='w-[100%] h-[50px] bg-[#1dc9fd] text-white rounded-full mt-[40px]' disabled={loading}>{loading?"loading...":"Sign Up"}</button>
         <p className='text-center cursor-pointer' onClick={()=>navigate("/login")}>Already have an Account ? <span className='text-blue-800'>Sign In</span></p> 
       </form>
     </div>
