@@ -27,6 +27,7 @@ const SignUp = () => {
     try{
       let res = await axios.post(serverUrl+"/api/auth/signup",{firstName, lastName, userName, email, password}, {withCredentials:true});
       console.log(res.data);  
+      setErr("");
       setLoading(false);
       setFirstName("");
       setLastName("");
@@ -57,7 +58,7 @@ const SignUp = () => {
           <input type={show ? "text" : "password"} className='w-full h-full border-none text-gray-800 text-[18px] px-[20px] py-[10px] rounded-md' placeholder='password' required value={password}  onChange={(e)=>setPassword(e.target.value)} />
           <span className='absolute right-[20px] top-[10px] text-blue-800 cursor-pointer' onClick={()=>setShow(prev=>!prev)}>{show ? "hidden" : "show"}</span>
         </div>
-        {err && <p>{err}</p> }  
+        {err && <p className='text-center text-red-500'>*{err}</p> }  
         <button className='w-[100%] h-[50px] bg-[#1dc9fd] text-white rounded-full mt-[40px]' disabled={loading}>{loading?"loading...":"Sign Up"}</button>
         <p className='text-center cursor-pointer' onClick={()=>navigate("/login")}>Already have an Account ? <span className='text-blue-800'>Sign In</span></p> 
       </form>
