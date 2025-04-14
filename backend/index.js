@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 dotenv.config();
 
 import cors from 'cors';
+import userRouter from './routes/user.routes.js';
 app.use(cors({
     origin:"http://localhost:5173",
     credentials:true,
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
