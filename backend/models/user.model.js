@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
     skills: {
         type: String,
     },
-    aducation: [
+    education: [
         {
             college: {
                 type: String,
@@ -52,6 +52,7 @@ const userSchema = new mongoose.Schema({
     ],
     location: {
         type: String,
+        default:"India"
     },
     gender: {
         type: String,
