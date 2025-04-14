@@ -3,9 +3,11 @@ import logo from '../assets/logo.svg'
 import { useNavigate } from 'react-router-dom';
 import { authDataContext } from '../context/authContext';
 import axios from 'axios';
+import { userDataContext } from '../context/userContext';
 const Login = () => {
   
   const{serverUrl} = useContext(authDataContext);
+  let{userData, setUserData} = useContext(userDataContext);
 
   let[show, setShow] = useState(false);
   let navigate = useNavigate();
@@ -24,14 +26,16 @@ const Login = () => {
     try{
       let res = await axios.post(serverUrl+"/api/auth/login",{email, password}, {withCredentials:true});
       console.log(res.data);  
+      setUserData(res.data);
+      navigate("/");
       setErr("");
       setLoading(false);
       setEmail("");
       setPassword("");
     }
     catch(error){
-      setErr(error.response.data.message);
-      // console.log(error);
+      // setErr(error.response.data.message);
+      console.log(error);
       setLoading(false);
     }
   }
